@@ -1,0 +1,6 @@
+extends layout
+block wcontent
+  div.alert.alert-danger
+   div Ошибка: #{msg||''}
+   if (referrer)
+     a.btn(href=referrer) Вернуться

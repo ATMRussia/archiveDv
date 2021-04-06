@@ -1,0 +1,46 @@
+extends layout
+append styles
+  style.
+    @media all {
+      .page-break {
+        display: none;
+      }
+    }
+
+    @media print {
+      html, body {
+        height: initial !important;
+        overflow: initial !important;
+        -webkit-print-color-adjust: exact;
+      }
+    }
+
+    @media print {
+      .page-break {
+        margin-top: 1rem;
+        display: block;
+        page-break-before: auto;
+      }
+    }
+
+    @page {
+      size: auto;
+      margin: 10mm;
+    }
+append scripts
+  script(src="/files/js/react/reactVendorPack.js")
+  script(src="/socket.io/socket.io.js")
+  script(src="/files/js/jsonfn.js")
+  script.
+    const socket = io({
+      transports: ['websocket'],
+      autoConnect: false
+    });
+  script(src="/files/js/socketInit.js")
+  script.
+    var reqParams=!{JSON.stringify(params||{})};
+    var appProps = !{JSON.stringify(appProps||{})};
+    document.referer="!{referer}";
+  script(src="/files/js/react/"+name+"Pack.js")
+block wcontent
+  #wrapper
