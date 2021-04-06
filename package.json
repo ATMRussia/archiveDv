@@ -1,7 +1,7 @@
 {
   "name": "archiveDv",
-  "caption": "archiveDv",
-  "description": "Просмотр Архива документов DocsVision",
+  "caption": "Архив DV",
+  "description": "Просмотр Архива документов DV",
   "version": "1.0.1",
   "type": "module",
   "scripts": {
@@ -90,7 +90,7 @@
     "rights": [
       {
         "prop": "adminDvCards",
-        "caption": "Админ архив DocsVision",
+        "caption": "Админ архив DV",
         "description": "Полный доступ ко всем карточкам",
         "default": "forbid"
       }
