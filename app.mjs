@@ -14,7 +14,7 @@ function socketHandler (socket) {
 
 stdExpressApp(settings, socketHandler).then((app) => {
   // Адрес сервиса авторизации
-  const Auth = new AuthLib('https://auth.ans.aero', 'PDF', '.authKeys.json')
+  const Auth = new AuthLib('https://auth.ans.aero', 'archiveDv', '.authKeys.json')
 
   // Переадресация клиента в сервис авторизации
   app.get('/login', (req, res) => {
