@@ -2,7 +2,7 @@ import MinimalMongodb from 'MinimalMongodb'
 import PrepareWords from 'PrepareWords'
 import settings from './../settings.js'
 
-const wordsVer = 3;
+const wordsVer = 4;
 
 function alwaysArray(item) {
   if (!item){
@@ -57,7 +57,7 @@ async function start () {
 
     doc.folders && doc.folders.forEach((folder) => {
       !/^Папки$/.test(folder.Name) && pWords.fromString(folder.Name)
-      pWords.fromString('folderId'+folder._id)
+      // pWords.fromString('folderId'+folder._id)
     })
     for (let emplLink of alwaysArray(doc?.sections?.Employees)){
       upd.Employees = upd.Employees || [];
