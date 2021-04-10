@@ -2,7 +2,7 @@ import MinimalMongodb from 'MinimalMongodb'
 import PrepareWords from 'PrepareWords'
 import settings from './../settings.js'
 
-const wordsVer = 1;
+const wordsVer = 2;
 
 function alwaysArray(item) {
   if (!item){
@@ -103,6 +103,15 @@ async function start () {
 
     //Все ключевые слова в главную карточку
     upd.words = (level === 0) ? pWords.words : null;
+    upd.words && upd.words.filter((word) => {
+      if (!isNaN(Number(word))){
+        return true
+      }else if (word.length > 3) {
+        return true
+      }else {
+        return false
+      }
+    })
     upd.wordsVer = wordsVer;
     await mdb.collection('dvCards').updateOne({
       _id: doc._id

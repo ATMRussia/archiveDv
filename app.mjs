@@ -88,6 +88,7 @@ stdExpressApp(settings, socketHandler).then((app) => {
     if (!fileDoc) {
       res.status(404);
       res.end('404 file not found')
+      return
     }
     console.log('fileDoc', fileDoc)
     const bucket = new MongoDb.GridFSBucket(mdb, { bucketName: 'dvFiles' });

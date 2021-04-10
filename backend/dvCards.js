@@ -2,7 +2,7 @@
 import { getSafeRegex } from '../libs/regexHelpers.js'
 import PrepareWords from 'PrepareWords'
 
-const defaultRightsArray = ['adminDvCards']
+const defaultRightsArray = ['adminDvCards', 'viewAll']
 const colName = 'dvCards'
 
 export default function (socket) {
@@ -33,7 +33,7 @@ export default function (socket) {
     if (!data.rootCardId) return []
 
     async function fillChilds(parentCard){
-      const children = await mdb.collection('dvCards').find({
+      const children = await mdb.collection('dvChildCards').find({
         ParentID : parentCard._id
       }, {
         sort: { CreationDateTime: -1 },
@@ -84,11 +84,27 @@ export default function (socket) {
     (new PrepareWords())
       .fromString(data.searchCondition.keywords || '')
       .words.forEach((word) => {
-        searchCondition.words.$all.push(new RegExp(`^${getSafeRegex(word)}`))
+        if (!isNaN(Number(word))){
+          searchCondition.words.$all.push(new RegExp(`^${getSafeRegex(word)}$`))
+        }else if (word.length > 3) {
+          searchCondition.words.$all.push(new RegExp(`^${getSafeRegex(word)}`))
+        }
       })
     if (searchCondition.words.$all.length === 0) {
       delete searchCondition.words;
-      searchCondition.ParentID = '00000000-0000-0000-0000-000000000000';
+      // searchCondition.ParentID = '00000000-0000-0000-0000-000000000000';
+    }
+
+    if (filters.sdate) {
+      console.log('sdate', filters.sdate);
+      searchCondition.CreationDateTime = searchCondition.CreationDateTime || {}
+      searchCondition.CreationDateTime.$gte = new Date(filters.sdate);
+    }
+
+    if (filters.edate) {
+      console.log('edate', filters.edate);
+      searchCondition.CreationDateTime = searchCondition.CreationDateTime || {}
+      searchCondition.CreationDateTime.$lt = new Date(filters.edate);
     }
 
     if (filters.folderId && filters.folderId.length) {
@@ -139,7 +155,7 @@ export default function (socket) {
     if (searchCondition.$and.length === 0) delete searchCondition.$and
     if (searchCondition.$or.length === 0) delete searchCondition.$or
 
-    //console.log('searchCondition',searchCondition);
+    console.log('searchCondition',searchCondition);
     const cursor = mdb.collection(colName).find(searchCondition);
     cursor.sort({ CreationDateTime: -1 });
 

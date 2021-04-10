@@ -3,6 +3,7 @@ import React, { useMemo, useReducer } from 'react'
 import TablePagination from '@material-ui/core/TablePagination'
 import '@babel/polyfill'
 import DvCardModalForm from '../forms/DvCardModalForm.jsx'
+import SetupRightsModalForm from '../forms/SetupRightsModalForm.jsx'
 import Grid from '@material-ui/core/Grid'
 import Panel from '../stuff/Panel.jsx'
 import SearchDvCardForm from '../stuff/SearchDvCardForm.jsx'
@@ -16,7 +17,7 @@ function reducer (state, action) {
   console.log('action', action)
   switch (action.type) {
     case 'folderClick': {
-      const fid = state.searchCondition.filters.folderId
+      const fid = state.searchCondition?.filters?.folderId || []
       const newFid = fid.concat([])
 
       if (action.selected) {
@@ -61,6 +62,10 @@ function reducer (state, action) {
       }
       return newState
     }
+    case 'openSetupRights':
+      return { ...state, setupRights: action.object }
+    case 'closeSetupRights':
+      return { ...state, setupRights: null }
     default: return state
   }
 }
@@ -72,7 +77,9 @@ function DvCards (props) {
       filters: {
         inclTags: [],
         exclTags: [],
-        folderId: []
+        folderId: [],
+        sdate: new Date(new Date().getTime() - (365 * 24 * 60 * 60000)),
+        edate: new Date()
       },
       keywords: ''
     },
@@ -120,7 +127,7 @@ function DvCards (props) {
       var result = await socket.asyncSafeEmit('getDvCards', {
         rowsAndPages: rowsAndPages,
         searchCondition: searchCondition,
-        timeout: rowsAndPages.limit * 500
+        timeout: rowsAndPages.limit * 1500
       })
       console.log('result', result)
       dispatch({
@@ -217,6 +224,7 @@ function DvCards (props) {
         }}
         dispatch={dispatch}
       />}
+      {state.setupRights && <SetupRightsModalForm object={state.setupRights}/>}
     </React.Fragment>
   )
 }

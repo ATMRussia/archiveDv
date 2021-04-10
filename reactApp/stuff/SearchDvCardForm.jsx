@@ -27,7 +27,6 @@ const useStyles = makeStyles((theme) => ({
     'margin-left': '5px',
     'margin-right': '5px'
   }
-
 }))
 
 export default function SearchDvCardForm (props) {
@@ -37,12 +36,13 @@ export default function SearchDvCardForm (props) {
   const classes = useStyles()
   const [anchorEl, setAnchorEl] = React.useState(null)
   const FiltersDvCardsDialogOpened = Boolean(anchorEl)
+  // console.log('draw filters', anchorEl, FiltersDvCardsDialogOpened)
   var filtersCnt = 0
   filtersCnt += (filters.hierarchy?.length) || 0
   filtersCnt += (filters.inclTags?.length) || 0
   filtersCnt += (filters.exclTags?.length) || 0
-  filtersCnt += filters.step ? 1 : 0
-  filtersCnt += filters.costSwitch ? 1 : 0
+  filtersCnt += filters.sdate ? 1 : 0
+  filtersCnt += filters.edate ? 1 : 0
 
   async function emitSearch (newFilters) {
     // newFilters && setFilters(newFilters)
@@ -104,7 +104,7 @@ export default function SearchDvCardForm (props) {
           />
         </div>
       </Popper>
-    </React.Fragment>), [props.searchCondition, FiltersDvCardsDialog])
+    </React.Fragment>), [props.searchCondition, FiltersDvCardsDialogOpened])
 }
 
 SearchDvCardForm.propTypes = {

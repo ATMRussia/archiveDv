@@ -34,6 +34,7 @@
     "@babel/preset-env": "^7.12.11",
     "@babel/preset-flow": "^7.10.4",
     "@babel/preset-react": "^7.12.10",
+    "@date-io/moment": "^1.3.13",
     "@material-ui/core": "^4.11.3",
     "@material-ui/icons": "^4.11.2",
     "@material-ui/lab": "^4.0.0-alpha.57",
@@ -91,8 +92,20 @@
       {
         "prop": "adminDvCards",
         "caption": "Админ архив DV",
+        "description": "Видеть все карточки и определять права просмотра",
+        "default": "forbid"
+      },
+      {
+        "prop": "viewAll",
+        "caption": "Смотреть все карточки",
         "description": "Полный доступ ко всем карточкам",
         "default": "forbid"
+      },
+      {
+        "prop": "user",
+        "caption": "Пользователь",
+        "description": "Пользователь, видит карточки определенные администратором",
+        "default": "allow"
       }
     ]
   },
