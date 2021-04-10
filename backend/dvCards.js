@@ -156,7 +156,12 @@ export default function (socket) {
     if (searchCondition.$or.length === 0) delete searchCondition.$or
 
     console.log('searchCondition',searchCondition);
-    const cursor = mdb.collection(colName).find(searchCondition);
+    const cursor = mdb.collection(colName).find(searchCondition, {
+      projection: {
+        'instanceDate.CreationDateTime': 1,
+        Description: 1
+      }
+    });
     cursor.sort({ CreationDateTime: -1 });
 
     ret.rowsAndPages.cnt = await cursor.count();

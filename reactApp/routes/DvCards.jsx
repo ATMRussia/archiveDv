@@ -216,7 +216,6 @@ function DvCards (props) {
       {route.name === 'dvCardsModalForm' && <DvCardModalForm
         userData={appProps.userData}
         docId={route.params.cardId}
-        doc={state.activeDoc}
         onClose={() => {
           dispatch({
             type: 'unsetActiveDoc'
