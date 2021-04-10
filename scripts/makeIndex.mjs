@@ -13,7 +13,7 @@ async function start () {
   //await mdb.collection('dvCards').createIndex({ FolderRowId: 1, })
   await mdb.collection('dvCards').createIndex({ 'folders._id': 1})
   await mdb.collection('dvCards').createIndex({ words: 1 })
-  await mdb.collection('dvChildsCards').createIndex({ ParentID: 1 })
+  await mdb.collection('dvChildCards').createIndex({ ParentID: 1 })
   await mdb.collection('dvCards').createIndex({ 'CreationDateTime': -1 })
   await mdb.collection('dvFoldersTree').createIndex({ 'ParentTreeRowID': 1 })
 
