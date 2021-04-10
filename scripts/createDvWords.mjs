@@ -2,7 +2,7 @@ import MinimalMongodb from 'MinimalMongodb'
 import PrepareWords from 'PrepareWords'
 import settings from './../settings.js'
 
-const wordsVer = 2;
+const wordsVer = 3;
 
 function alwaysArray(item) {
   if (!item){
@@ -57,6 +57,7 @@ async function start () {
 
     doc.folders && doc.folders.forEach((folder) => {
       !/^Папки$/.test(folder.Name) && pWords.fromString(folder.Name)
+      pWords.fromString('folderId'+folder._id)
     })
     for (let emplLink of alwaysArray(doc?.sections?.Employees)){
       upd.Employees = upd.Employees || [];
@@ -93,7 +94,7 @@ async function start () {
     }
 
     // Найдем все дочерние карточки
-    const childCardsCursor = mdb.collection('dvCards').find({
+    const childCardsCursor = mdb.collection('dvChildsCards').find({
       ParentID: doc._id
     });
 
