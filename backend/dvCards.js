@@ -7,9 +7,10 @@ const colName = 'dvCards'
 
 export default function (socket) {
   socket.onp('getDvCard', defaultRightsArray, async (data) => {
-    const doc = await mdb.collection(colName).findOne({ _id: data.docId })
-    console.log('doc', doc)
-    return doc
+    const doc = await mdb.collection(colName).findOne({ _id: data.docId });
+    const docC = await mdb.collection('dvChildCards').findOne({ _id: data.docId });
+    console.log('doc', doc || docC)
+    return doc || docC
   })
 
   socket.onp('getFolders', defaultRightsArray, async (data) => {
